@@ -1,0 +1,42 @@
+# Composer dependencies
+vendor
+/composer.lock
+
+# Node modules
+/node_modules
+
+# Laravel storage directories
+/storage/*.key
+/public/storage
+/public/hot
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+
+# Environment and configuration files
+/.env
+/.env.backup
+/.env.example
+Homestead.yaml
+Homestead.json
+
+# IDE and editor files
+/.vscode
+/.idea
+
+# PHPUnit result cache
+/.phpunit.result.cache
+
+# Debug and log files
+npm-debug.log
+yarn-error.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Asset build directories
+/public/build
+/public/mix-manifest.json

@@ -1,0 +1,49 @@
+.validation-div{ color: #ba2020; }
+.btn-primary{ color: #fff; background-color: #212120; border-color: #000000; }
+.btn-primary:hover{ background-color: #212120; border-color: #000000; }
+.text-primary {color: #212120 !important;}
+.btn-link {color: #212120;}
+.btn-link:hover {color: #212120;}
+a.text-primary:hover, a.text-primary:focus {color: #000000 !important;}
+a {color: #212120;}
+a:hover {color: #212120;}
+.swal2-content{font-size: 15px!important;}
+.swal2-popup{font-size: 15px!important;}
+
+.auth-logo{
+	height:100%;
+	background-color:#CD001C;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+.auth-logo img{
+	width:350px;
+}
+h4.login-title {
+	color:#CD001C;
+	font-size:25px;
+	font-weight:600;
+	padding-bottom:20px;
+}
+span.title-line{
+	display:block;
+	width:90px;
+	height:2px;
+	background-color:#707070;
+	margin-bottom:40px;
+}
+.login-action{
+	padding-top:40px;
+}
+.btn-theme{
+	color: #fff;
+    background-color: #CD001C;
+    border-color: #CD001C;
+	padding:0.5rem 2rem;
+}
+@media screen and (max-width:991px){
+	.auth-logo img{
+		width:200px !important;
+	}
+}

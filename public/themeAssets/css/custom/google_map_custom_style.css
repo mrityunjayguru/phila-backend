@@ -1,0 +1,5 @@
+#map_canvas {width: 980px;height: 500px;}
+#current {padding-top: 25px;}
+.image-preview{}
+.parent_remove_btn{cursor: pointer;}
+#pac-input{position: absolute;top: 10px;right: 60px;z-index: 9999;}
