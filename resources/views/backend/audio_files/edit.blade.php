@@ -295,7 +295,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <button type="submit" class="mt-2 btn btn-primary">{{ trans('common.submit') }}</button> --}}
             </form>
         </div>
     </div>
