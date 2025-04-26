@@ -583,7 +583,6 @@
                 //     title: point.title || "No description",
                 //     icon: (point.id == id) ? highlightedIcon : defaultIcon,
                 // });
-                console.log("point.angle",point.angle);
                 
                 var marker = new google.maps.Marker({
                     position: position,
@@ -597,6 +596,10 @@
                     }
                 });
 
+                if (point.id == id) {
+                    selectedMarker = marker;
+                    marker.customData = point; // also set customData so it's editable
+                }
 
 
                 var infoWindow = new google.maps.InfoWindow({
@@ -771,6 +774,27 @@
                     selectedMarker.customData.angle = newAngle;
                 }
             });
+
+            $('#latitude, #longitude').on('change', function () {
+                if (!selectedMarker) return;
+
+                let lat = parseFloat($('#latitude').val());
+                let lng = parseFloat($('#longitude').val());
+
+                if (isNaN(lat) || isNaN(lng)) return; // invalid
+
+                let newPosition = new google.maps.LatLng(lat, lng);
+
+                selectedMarker.setPosition(newPosition);
+
+                if (selectedMarker.customData) {
+                    selectedMarker.customData.latitude = lat;
+                    selectedMarker.customData.longitude = lng;
+                }
+
+                // Optional: center the map
+                // map.panTo(newPosition);
+            });
         };
         
     </script>
@@ -903,6 +927,7 @@
                     let position = marker.getPosition();
                     $('#latitude').val(position.lat());
                     $('#longitude').val(position.lng());
+                    $('#latitude').trigger('change'); 
                 });
 
                 // Initialize the search box
