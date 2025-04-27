@@ -538,14 +538,14 @@
             const defaultSymbol = {
                 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                 scale: 4,
-                strokeColor: '#FFD700', // gold
+                strokeColor: '#FF0000', // gold
                 strokeWeight: 2
             };
 
             const highlightedSymbol = {
                 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                 scale: 4,
-                strokeColor: '#0000FF', // blue
+                strokeColor: '#000000', // blue
                 strokeWeight: 2
             };
 
@@ -592,7 +592,7 @@
                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                         scale: 4,
                         rotation: parseFloat(point.angle) || 0,
-                        strokeColor: (point.id == id) ? '#0000FF' : '#FFD700',
+                        strokeColor: (point.id == id) ? '#000000' : '#FF0000',
                     }
                 });
 
