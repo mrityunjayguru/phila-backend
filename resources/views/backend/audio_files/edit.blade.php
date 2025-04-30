@@ -752,7 +752,7 @@
                         $('input[name="audio_data"]').val(''); // empty audio_data
                     }
 
-
+                    $('#latitude').trigger('change'); 
                 });
                 markerStore[point.id] = marker;
             });
@@ -887,6 +887,10 @@
                 const defaultLat = parseFloat($('#latitude').val());
                 const defaultLng = parseFloat($('#longitude').val());
 
+                console.log('defaultLat',defaultLat);
+                console.log('defaultLng',defaultLng);
+                
+
                 if (isNaN(defaultLat) || isNaN(defaultLng)) {
                     console.error('Invalid coordinates:', defaultLat, defaultLng);
                     // Set default coordinates if values are invalid
@@ -918,7 +922,7 @@
                 $('#longitude').val(defaultLng);
 
                 // Set the marker based on the input values
-                $('#latitude, #longitude').on('input', function() {
+                $('#latitude, #longitude').on('change', function() {
                     updateMarker();
                 });
 
@@ -1026,7 +1030,9 @@
             function updateMarker() {
                 let lat = parseFloat($('#latitude').val());
                 let lng = parseFloat($('#longitude').val());
-
+                console.log('lat',lat);
+                console.log('lng',lng);
+                
                 if (!isNaN(lat) && !isNaN(lng)) {
                     let position = {
                         lat: lat,
