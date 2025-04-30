@@ -210,30 +210,30 @@
                 </div>
 
                 <!-- <div id="dynamicFieldsContainer">
-                                                <div class="form-row">
-                                                    <div class="col-md-4">
-                                                        <div class="position-relative form-group">
-                                                            <label for="language">Language</label>
-                                                            <select name="language[0]" class="form-control languages" id="language">
-                                                                @foreach ($getLanguage as $language)
-    <option value="{{ $language->tag }}" id="languages">{{ $language->language }}
-                                                                    ({{ $language->tag }})
-    </option>
-    @endforeach
-                                                            </select>
-                                                            <div class="validation-div" id="val-language"></div>
-                                                            <div id="selectedLanguages"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="position-relative form-group">
-                                                            <label for="audio">Audio File</label>
-                                                            <input type="file" name="audio" class="form-control-file audios" id="audio">
-                                                            <div class="validation-div" id="val-audio"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label for="language">Language</label>
+                                    <select name="language[0]" class="form-control languages" id="language">
+                                        @foreach ($getLanguage as $language)
+                                            <option value="{{ $language->tag }}" id="languages">
+                                                {{ $language->language }}({{ $language->tag }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="validation-div" id="val-language"></div>
+                                    <div id="selectedLanguages"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="audio">Audio File</label>
+                                    <input type="file" name="audio" class="form-control-file audios" id="audio">
+                                    <div class="validation-div" id="val-audio"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
 
                 <table class="col-lg-12 table-data">
                     <tr>

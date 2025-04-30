@@ -28,7 +28,7 @@ class AudioFileController extends BaseController
     public function index(Request $request)
     {
         try {
-            $query = Audio::where(['status'=> 'active'])->select('page_id','latitude','longitude','priority','proximity','show_icon','angle','tolerance','is_in_queue');
+            $query = Audio::where(['status'=> 'active'])->select('title','page_id','latitude','longitude','priority','proximity','show_icon','angle','tolerance','is_in_queue');
 			$data = $query->orderBy('priority', 'ASC')->get();
 
             if (count($data) > 0) {

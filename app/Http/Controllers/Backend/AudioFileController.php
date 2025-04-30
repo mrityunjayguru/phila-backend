@@ -359,7 +359,7 @@ class AudioFileController extends CommonController
 		$triggerPoints = Audio::where('page_id',$page_id)->where('status','active')->get();
 		// dd($triggerPoints);
 		// Pass the data to the view
-		return view('backend.audio_files.edit', compact('data', 'audioDataMapped','page_id','triggerPoints'));
+		return view('backend.audio_files.edit', compact('data', 'audioDataMapped','page_id','triggerPoints','getLanguage'));
 	}
 
 	public function update(Request $request)
