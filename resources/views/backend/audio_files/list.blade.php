@@ -143,7 +143,7 @@
         <div class="card-header-tab card-header">
             <div class="card-header-title font-size-lg text-capitalize font-weight-normal">Audio List</div>
             <div class="btn-actions-pane-right text-capitalize">
-                <a class="btn btn-sm btn-danger mt-2" href="{{ route('map.trigger-points',$page_id) }}" target="_blank">View Trigger Points</a>
+                {{-- <a class="btn btn-sm btn-danger mt-2" href="{{ route('map.trigger-points',$page_id) }}" target="_blank">View Trigger Points</a> --}}
                 <!--<button type="button" class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm"-->
                 <!--    data-toggle="modal" data-target="#filterBox">{{ trans('common.filters') }}</button>-->
                 <div class="position-relative form-group mt-2 ml-3 d-inline-block">

@@ -230,6 +230,7 @@
                     </thead>
                     <tbody>
                         @foreach ($audioDataMapped as $language => $audioData)
+                        {{-- @dd($audioData); --}}
                         <tr>
                             <td>
                                 <input type="text" value="{{ $language }}" class="form-control" disabled
@@ -310,194 +311,6 @@
 @endsection
 
 @section('js')
-   {{-- <script>
-        window.onload = function InitializeMap() {
-        var myOptions = {
-            zoom: 13,
-            center: new google.maps.LatLng(39.95774, -75.17245),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-        };
-
-        map = new google.maps.Map(document.getElementById("map"), myOptions);
-
-        // 🎯 Draw route line
-        var tourRoutePoints = [];
-        var routeData = new FormData();
-        routeData.append('type', 'tour');
-
-        var routeResponse = runAjax(SITE_URL + '/roots', routeData);
-        if (routeResponse.status == '200' && routeResponse.data.length > 0) {
-            $.each(routeResponse.data, function(index, value) {
-                tourRoutePoints.push(new google.maps.LatLng(value.latitude, value.longitude));
-            });
-
-            var polylineOptions = {
-                path: tourRoutePoints,
-                strokeColor: "#ff0000",
-                strokeWeight: 5
-            };
-            var tourPolyline = new google.maps.Polyline(polylineOptions);
-            tourPolyline.setMap(map);
-        }
-
-        // 👇 Your existing triggerPoints and markers logic continues below...
-        var triggerPoints = @json($triggerPoints);
-
-        var defaultIcon = {
-            url: "http://127.0.0.1:8000/uploads/Audio.png",
-            scaledSize: new google.maps.Size(30, 30),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(15, 30),
-        };
-
-        var highlightedIcon = {
-            url: "http://127.0.0.1:8000/uploads/Audio-highlight.png",
-            scaledSize: new google.maps.Size(35, 35),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 35),
-        };
-
-        var id = $('#id').val();
-
-        triggerPoints.forEach(function(point) {
-            var position = new google.maps.LatLng(point.latitude, point.longitude);
-
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: point.title || "No description",
-                icon: (point.id == id) ? highlightedIcon : defaultIcon
-            });
-
-            var infoWindow = new google.maps.InfoWindow({
-                content: point.title || "No description",
-            });
-
-            marker.addListener("click", function() {
-                if (selectedMarker && selectedMarker !== marker) {
-                    selectedMarker.setIcon(defaultIcon);
-                }
-
-                marker.setIcon(highlightedIcon);
-                selectedMarker = marker;
-
-                const data = point;
-                console.log("Marker clicked:", data);
-
-                $('#id').val(data.id);
-                $('#title').val(data.title);
-                $('#priority').val(data.priority);
-                $('#angle').val(data.angle);
-                $('#tolerance').val(data.tolerance);
-                $('#proximity').val(data.proximity);
-                $('#latitude').val(data.latitude);
-                $('#longitude').val(data.longitude);
-
-                if (data.image) {
-                    const imageUrl = data.image ? `${window.location.origin}/${data.image.replace(/^\/+/, '')}` : '';
-                    $('#image-src').attr('src', imageUrl).show();
-                    $('.parent_remove_btn').attr('data-id', data.id).show();
-                } else {
-                    $('#image-src').attr('src', '').hide();
-                    $('.parent_remove_btn').hide();
-                }
-                $('#description').val(data.description);
-                $('#status').val(data.status);
-                $('#show_icon').val(data.show_icon);
-                $('#is_in_queue').prop('checked', data.is_in_queue === 'yes');
-
-                const audioTable = $('.table-data');
-                audioTable.find("tr:gt(0)").remove();
-
-                let $tbody = $('#audio-table tbody');
-                $tbody.empty();
-
-                let filePathArray = [];
-
-                if (typeof data.file_path === 'string') {
-                    try {
-                        filePathArray = JSON.parse(data.file_path);
-                    } catch (error) {
-                        console.error("Error parsing file_path JSON:", error);
-                        filePathArray = [];
-                    }
-                } else if (Array.isArray(data.file_path)) {
-                    filePathArray = data.file_path;
-                }
-
-                if (Array.isArray(filePathArray) && filePathArray.length > 0) {
-                    filePathArray.forEach((audioData) => {
-                        let language = audioData.languages || '';
-                        let isChecked = audioData.audio_status === 'active' ? 'checked' : '';
-                        let audioSrc = audioData.file_path
-                            ? `<audio controls class="ml-3">
-                                    <source src="${audioData.file_path}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                            </audio>`
-                            : '';
-
-                        let newRow = `
-                            <tr>
-                                <td>
-                                    <input type="text" value="${language}" class="form-control" disabled name="language[]">
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <input type="file" name="audio_files[]" class="form-control-file audios ml-lg-3">
-                                        ${audioSrc}
-                                    </div>
-                                </td>
-                                <td>
-                                    <label class="toggle">
-                                        <input type="checkbox" name="audio_status[]" value="active" ${isChecked}>
-                                        <span class="slider"></span>
-                                    </label>
-                                    <input type="hidden" name="audio_status_hidden[]" value="inactive">
-                                </td>
-                            </tr>
-                        `;
-                        $tbody.append(newRow);
-                    });
-
-                    $('input[name="audio_data"]').val(JSON.stringify(filePathArray));
-                } else {
-                    const defaultLanguages = [
-                        "English", "French", "German", "Spanish", "Japanese", "Korean", "Italian",
-                        "Hindi", "Russian", "Chinese", "Portuguese", "Vietnamese"
-                    ];
-
-                    defaultLanguages.forEach(language => {
-                        let newRow = `
-                            <tr>
-                                <td>
-                                    <input type="text" value="${language}" class="form-control" disabled name="language[]">
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <input type="file" name="audio_files[]" class="form-control-file audios ml-lg-3">
-                                    </div>
-                                </td>
-                                <td>
-                                    <label class="toggle">
-                                        <input type="checkbox" name="audio_status[]" value="active">
-                                        <span class="slider"></span>
-                                    </label>
-                                    <input type="hidden" name="audio_status_hidden[]" value="inactive">
-                                </td>
-                            </tr>
-                        `;
-                        $tbody.append(newRow);
-                    });
-
-                    $('input[name="audio_data"]').val('');
-                }
-            });
-
-            markerStore[point.id] = marker;
-        });
-    };
-
-   </script> --}}
     <script>
         async function runAjax(url, formData) {
             const token = $('meta[name="csrf-token"]').attr('content');
@@ -585,13 +398,6 @@
             triggerPoints.forEach(function(point) {
                 var position = new google.maps.LatLng(point.latitude, point.longitude);
 
-                // var marker = new google.maps.Marker({
-                //     position: position,
-                //     map: map,
-                //     title: point.title || "No description",
-                //     icon: (point.id == id) ? highlightedIcon : defaultIcon,
-                // });
-                
                 var marker = new google.maps.Marker({
                     position: position,
                     map: map,
@@ -677,88 +483,83 @@
                     let $tbody = $('#audio-table tbody');
                     $tbody.empty(); // Clear old rows
 
+                    const rawFilePath = data.file_path;
+
+                    // Active languages from the backend (e.g., Language::where('status', 'active')->pluck('language'))
+                    const activeLanguages = @json($getLanguage->pluck('language'));
+
                     let filePathArray = [];
 
-                    // First, parse if string or use as is
-                    if (typeof data.file_path === 'string') {
+                    // Safely parse rawFilePath
+                    if (typeof rawFilePath === 'string') {
                         try {
-                            filePathArray = JSON.parse(data.file_path);
+                            filePathArray = JSON.parse(rawFilePath);
                         } catch (error) {
                             console.error("Error parsing file_path JSON:", error);
-                            filePathArray = []; // fallback
+                            filePathArray = [];
                         }
-                    } else if (Array.isArray(data.file_path)) {
-                        filePathArray = data.file_path;
+                    } else if (Array.isArray(rawFilePath)) {
+                        filePathArray = rawFilePath;
                     }
 
-                    // ✅ Now check if array has valid data
-                    if (Array.isArray(filePathArray) && filePathArray.length > 0) {
-                        filePathArray.forEach((audioData) => {
-                            let language = audioData.languages || '';
-                            let isChecked = audioData.audio_status === 'active' ? 'checked' : '';
-                            let audioSrc = audioData.file_path
-                                ? `<audio controls class="ml-3">
-                                        <source src="${audioData.file_path}" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                </audio>`
-                                : '';
+                    // Create a mapping of language => audio data
+                    const audioDataMapped = {};
 
-                            let newRow = `
-                                <tr>
-                                    <td>
-                                        <input type="text" value="${language}" class="form-control" disabled name="language[]">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <input type="file" name="audio_files[]" class="form-control-file audios ml-lg-3">
-                                            ${audioSrc}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <label class="toggle">
-                                            <input type="checkbox" name="audio_status[]" value="active" ${isChecked}>
-                                            <span class="slider"></span>
-                                        </label>
-                                        <input type="hidden" name="audio_status_hidden[]" value="inactive">
-                                    </td>
-                                </tr>
-                            `;
-                            $tbody.append(newRow);
-                        });
+                    filePathArray.forEach(audioData => {
+                        const lang = audioData.languages;
+                        if (lang) {
+                            audioDataMapped[lang] = {
+                                file_path: audioData.file_path || '',
+                                audio_status: audioData.audio_status || 'inactive'
+                            };
+                        }
+                    });
 
-                        $('input[name="audio_data"]').val(JSON.stringify(filePathArray));
-                    } else {
-                        // 👇 Else fallback to default language rows
-                        const defaultLanguages = [
-                            "English", "French", "German", "Spanish", "Japanese", "Korean", "Italian",
-                            "Hindi", "Russian", "Chinese", "Portuguese", "Vietnamese"
-                        ];
+                    // Ensure all active languages are included, even if not in filePathArray
+                    activeLanguages.forEach(lang => {
+                        if (!audioDataMapped[lang]) {
+                            audioDataMapped[lang] = {
+                                file_path: '',
+                                audio_status: 'inactive'
+                            };
+                        }
+                    });
 
-                        defaultLanguages.forEach(language => {
-                            let newRow = `
-                                <tr>
-                                    <td>
-                                        <input type="text" value="${language}" class="form-control" disabled name="language[]">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <input type="file" name="audio_files[]" class="form-control-file audios ml-lg-3">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <label class="toggle">
-                                            <input type="checkbox" name="audio_status[]" value="active">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <input type="hidden" name="audio_status_hidden[]" value="inactive">
-                                    </td>
-                                </tr>
-                            `;
-                            $tbody.append(newRow);
-                        });
+                    // Now render to DOM
+                    Object.entries(audioDataMapped).forEach(([language, audioData]) => {
+                        const isChecked = audioData.audio_status === 'active' ? 'checked' : '';
+                        const audioSrc = audioData.file_path
+                            ? `<audio controls class="ml-3">
+                                    <source src="${window.location.origin}/${audioData.file_path.replace(/^\/+/, '')}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                            </audio>`
+                            : '';
 
-                        $('input[name="audio_data"]').val(''); // empty audio_data
-                    }
+                        const newRow = `
+                            <tr>
+                                <td>
+                                    <input type="text" value="${language}" class="form-control" disabled name="language[]">
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <input type="file" name="audio_files[]" class="form-control-file audios ml-lg-3">
+                                        ${audioSrc}
+                                    </div>
+                                </td>
+                                <td>
+                                    <label class="toggle">
+                                        <input type="checkbox" name="audio_status[]" value="active" ${isChecked}>
+                                        <span class="slider"></span>
+                                    </label>
+                                    <input type="hidden" name="audio_status_hidden[]" value="inactive">
+                                </td>
+                            </tr>
+                        `;
+                        $tbody.append(newRow);
+                    });
+
+                    // Optional: Store raw file data
+                    $('input[name="audio_data"]').val(JSON.stringify(filePathArray)); 
 
                     $('#latitude').trigger('change'); 
                 });
