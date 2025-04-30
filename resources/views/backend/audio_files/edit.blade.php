@@ -522,11 +522,19 @@
         var map;
         var markerStore = {};
         var selectedMarker = null;
+        let existingLat = parseFloat(document.getElementById("latitude").value);
+        let existingLong = parseFloat(document.getElementById("longitude").value);
+
+        if (isNaN(existingLat) || isNaN(existingLong)) {
+            existingLat = 0;
+            existingLong = 0;
+        }
 
         window.onload = async function InitializeMap() {
             var myOptions = {
-                zoom: 13,
-                center: new google.maps.LatLng(39.95774, -75.17245),
+                zoom: 18,
+                // center: new google.maps.LatLng(existingLat, existingLong),
+                center: {lat: existingLat, lng: existingLong },
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
             };
 
@@ -904,7 +912,7 @@
                         lat: defaultLat,
                         lng: defaultLng
                     },
-                    zoom: 8
+                    zoom: 18
                 });
 
                 // Create the marker
