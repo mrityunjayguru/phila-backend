@@ -942,7 +942,7 @@
                     showConfirmButton: false,
                     timer: 3000
                 });
-                window.location.href = "/backend/audio/" + page_id;
+                // window.location.href = "/backend/audio/" + page_id;
             } else if (response.error) {
                 $('.validation-div').text('');
                 $.each(response.error, function(index, value) {
